@@ -16,12 +16,6 @@ $ python -m venv .venv
 $ poetry install
 ```
 
-### Run server
-
-```bash
-$ sh run.sh
-```
-
 ## License
 
 Unlicense
