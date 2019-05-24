@@ -1,14 +1,13 @@
 [tool.poetry]
 name = "mock-server"
 version = "1.0.0"
-description = "mock-server for front-end development"
-authors = ["punkyoon <cryptography@konkuk.ac.kr>"]
+description = "mock-server for front-end project"
+authors = ["punkyoon <punkkid001@gmail.com>"]
 license = "Unlicense"
 
 [tool.poetry.dependencies]
 python = "^3.6"
-fastapi = "^0.20.1"
-uvicorn = "^0.7.1"
+django = "^2.2"
 
 [tool.poetry.dev-dependencies]
 
