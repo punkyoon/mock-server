@@ -91,5 +91,3 @@ class MockProfile(BaseModel):
             mock_user=mock_user, language=language, country=country, locale=locale
         )
         return mock_profile
-
-# TODO: add custom authentication backend to login with email

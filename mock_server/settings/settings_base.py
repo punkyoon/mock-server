@@ -55,6 +55,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mock_server.wsgi.application'
 
 AUTH_USER_MODEL = 'accounts.MockUser'
+AUTHENTICATION_BACKENDS = ['accounts.backends.EmailAuthenticationBackend', ]
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
