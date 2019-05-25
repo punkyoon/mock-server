@@ -11,7 +11,7 @@ DEBUG = False
 SECRET_KEY = '&6fbttu7hb^=-v!84htgi=eh$1bc7ov$d-!2fuzmb2sxyktu+!'
 
 
-INSTALLED_APPS = [
+DEFAULT_DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -19,6 +19,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+PROJECT_APPS = ['accounts', ]
+EXTERNAL_APPS = ['rest_framework', 'safedelete', ]
+
+INSTALLED_APPS = DEFAULT_DJANGO_APPS + PROJECT_APPS + EXTERNAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,6 +54,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mock_server.wsgi.application'
 
+AUTH_USER_MODEL = 'accounts.MockUser'
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator', },
@@ -58,6 +64,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'

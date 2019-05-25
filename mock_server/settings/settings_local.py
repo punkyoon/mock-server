@@ -1,6 +1,8 @@
 from .settings_base import *
 
 
+ALLOWED_HOSTS = ['*']
+
 DEBUG = True
 
 DATABASES = {
