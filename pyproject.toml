@@ -1,14 +1,19 @@
 [tool.poetry]
 name = "mock-server"
 version = "1.0.0"
-description = "mock-server for front-end development"
-authors = ["punkyoon <cryptography@konkuk.ac.kr>"]
+description = "mock-server for front-end project"
+authors = ["punkyoon <punkkid001@gmail.com>"]
 license = "Unlicense"
 
 [tool.poetry.dependencies]
 python = "^3.6"
-fastapi = "^0.20.1"
-uvicorn = "^0.7.1"
+django = "^2.2"
+djangorestframework = "^3.9"
+django-safedelete = "^0.5.1"
+django-model-utils = "^3.1"
+djangorestframework-serializer-extensions = "^1.0"
+django-countries = "^5.3"
+djangorestframework_simplejwt = "^4.3"
 
 [tool.poetry.dev-dependencies]
 
