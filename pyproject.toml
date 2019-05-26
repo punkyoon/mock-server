@@ -13,7 +13,8 @@ django-safedelete = "^0.5.1"
 django-model-utils = "^3.1"
 djangorestframework-serializer-extensions = "^1.0"
 django-countries = "^5.3"
-djangorestframework_simplejwt = "^4.3"
+django-rest-auth = "^0.9.5"
+djangorestframework-jwt = "^1.11"
 
 [tool.poetry.dev-dependencies]
 
