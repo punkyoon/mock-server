@@ -21,9 +21,7 @@ DEFAULT_DJANGO_APPS = [
 PROJECT_APPS = ['accounts', 'todo_apps', 'mock_server', ]
 EXTERNAL_APPS = [
     'corsheaders',
-    'rest_auth',
     'rest_framework',
-    'rest_framework.authtoken',
     'rest_framework_serializer_extensions',
     'safedelete',
 ]
@@ -73,18 +71,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_USE_JWT = True
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication', ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated', ),
     'SERIALIZER_EXTENSIONS': {'USE_HASH_IDS': True, 'HASH_IDS_SOURCE': 'mock_server.HASH_IDS'},
     'PAGE_SIZE': 20,
 }
-
-JWT_AUTH = {'JWT_AUTH_HEADER_PREFIX': 'Bearer', }
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -94,3 +86,5 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_URL = '/uploads/'

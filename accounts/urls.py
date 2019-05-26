@@ -1,24 +1,21 @@
 from django.urls import path
 
-from rest_auth.views import LogoutView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
+from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework_simplejwt.views import TokenVerifyView, TokenRefreshView, TokenObtainPairView
 
-from accounts.views import RegisterMockUserView, FetchMockProfileView
+from accounts.views import MockUserView, MockProfileView
 
 
 app_name = 'accounts'
-urlpatterns = [
-    path(r'login', obtain_jwt_token, name='login'),
-    path(r'logout', LogoutView.as_view(), name='logout'),
-    path('register', RegisterMockUserView.as_view(), name='register'),
-    path(r'profile', FetchMockProfileView.as_view(), name='profile'),
 
-    path(r'password/change', PasswordChangeView.as_view(), name='password_change'),
-    path(r'password/reset', PasswordResetView.as_view(), name='password_reset'),
-    path(r'password/reset/confirm', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+mock_user = MockUserView.as_view({'post': 'create', 'get': 'retrieve'})
+mock_profile = MockProfileView.as_view({'get': 'retrieve', 'put': 'update'})
 
-    path('token/refresh', refresh_jwt_token),
-    path('token/verify', verify_jwt_token),
-]
+urlpatterns = format_suffix_patterns([
+    path('', mock_user, name='mock_user'),
+    path('profile', mock_profile, name='mock_profile'),
 
-# More details: https://django-rest-auth.readthedocs.io/en/latest/api_endpoints.html#basic
+    path('login', TokenObtainPairView.as_view(), name='login'),
+    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/verify', TokenVerifyView.as_view(), name='token_verify'),
+])
