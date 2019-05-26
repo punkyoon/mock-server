@@ -53,6 +53,9 @@ class MockUser(BaseModel, AbstractMockUser):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    def __str__(self):
+        return self.get_str(self.id, self.username)
+
     @classmethod
     def create(cls, email, password, language, country, locale):
         username = cls.generate_username()

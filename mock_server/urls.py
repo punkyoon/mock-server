@@ -7,4 +7,5 @@ urlpatterns = [
     path('admin-api/', include('rest_framework.urls')),
 
     path('accounts/', include('accounts.urls')),
+    path('todo-apps/', include('todo_apps.urls'))
 ]

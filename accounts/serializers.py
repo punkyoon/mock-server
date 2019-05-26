@@ -1,4 +1,5 @@
 from django_countries.serializer_fields import CountryField
+
 from rest_framework import serializers
 from rest_framework_serializer_extensions.serializers import SerializerExtensionsMixin
 
@@ -6,6 +7,7 @@ from accounts.models import MockUser, MockProfile
 
 
 class MockUserSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, max_length=128)
     language = serializers.CharField(write_only=True, max_length=2)
     country = CountryField(write_only=True)
     locale = serializers.CharField(write_only=True, max_length=5)
@@ -17,7 +19,6 @@ class MockUserSerializer(SerializerExtensionsMixin, serializers.ModelSerializer)
     class Meta:
         model = MockUser
         fields = ('email', 'password', 'locale', 'country', 'language', )
-        write_only_fields = ('email', 'password', )
 
 
 class MockProfileSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):

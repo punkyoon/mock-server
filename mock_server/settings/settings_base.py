@@ -18,11 +18,19 @@ DEFAULT_DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
-PROJECT_APPS = ['accounts', ]
-EXTERNAL_APPS = ['rest_auth', 'rest_framework', 'rest_framework.authtoken', 'safedelete', ]
+PROJECT_APPS = ['accounts', 'todo_apps', 'mock_server', ]
+EXTERNAL_APPS = [
+    'corsheaders',
+    'rest_auth',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_framework_serializer_extensions',
+    'safedelete',
+]
 INSTALLED_APPS = DEFAULT_DJANGO_APPS + PROJECT_APPS + EXTERNAL_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,13 +73,15 @@ AUTH_PASSWORD_VALIDATORS = [
 
 REST_USE_JWT = True
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated', ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ),
-    'SERIALIZER_EXTENSIONS': {'USE_HASH_IDS': True, 'HASH_IDS_SOURCE': 'mock_server.HASH_IDS'}
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination',
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated', ),
+    'SERIALIZER_EXTENSIONS': {'USE_HASH_IDS': True, 'HASH_IDS_SOURCE': 'mock_server.HASH_IDS'},
+    'PAGE_SIZE': 20,
 }
 
 JWT_AUTH = {'JWT_AUTH_HEADER_PREFIX': 'Bearer', }
