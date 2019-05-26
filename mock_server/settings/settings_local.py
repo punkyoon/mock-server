@@ -16,4 +16,4 @@ DATABASES = {
     }
 }
 
-JWT_AUTH = {'JWT_AUTH_HEADER_PREFIX': 'Bearer', 'JWT_EXPIRATION_DELTA': timedelta(days=1)}
+SIMPLE_JWT = {'ACCESS_TOKEN_LIFETIME': timedelta(days=1), 'REFRESH_TOKEN_LIFETIME': timedelta(days=7), }

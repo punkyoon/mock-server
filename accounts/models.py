@@ -8,7 +8,6 @@ from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.mail import send_mail
 from django.db import models
 
-from django_countries.fields import CountryField
 from safedelete import DELETED_VISIBLE_BY_PK
 from safedelete.managers import SafeDeleteManager
 
@@ -54,17 +53,17 @@ class MockUser(BaseModel, AbstractMockUser):
         super().__init__(*args, **kwargs)
 
     def __str__(self):
-        return self.get_str(self.id, self.username)
+        return self.username
 
     @classmethod
-    def create(cls, email, password, language, country, locale):
+    def create(cls, email, password, nickname, locale):
         username = cls.generate_username()
 
         mock_user = cls.objects.create(email=email, username=username)
         mock_user.set_password(password)
         mock_user.save()
 
-        MockProfile.create(mock_user=mock_user, language=language, country=country, locale=locale)
+        MockProfile.create(mock_user=mock_user, nickname=nickname, locale=locale)
 
         return mock_user
 
@@ -80,17 +79,13 @@ class MockUser(BaseModel, AbstractMockUser):
 class MockProfile(BaseModel):
     mock_user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     nickname = models.CharField(default='', max_length=65)
-
-    language = models.CharField(blank=True, default='', max_length=2)    # ko, ja, en, ...
-    country = CountryField(blank=True, default='')  # NZ, KR, ...
     locale = models.CharField(blank=True, default='', max_length=5)   # ko-KR, en-US, ...
+    profile_image = models.ImageField(upload_to='profile', default='default.png')
 
     class Meta:
         ordering = ['-id']
 
     @classmethod
-    def create(cls, mock_user, language='', country='', locale=''):
-        mock_profile = MockProfile.objects.create(
-            mock_user=mock_user, language=language, country=country, locale=locale
-        )
+    def create(cls, mock_user, nickname='', locale=''):
+        mock_profile = MockProfile.objects.create(mock_user=mock_user, nickname=nickname, locale=locale)
         return mock_profile

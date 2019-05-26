@@ -1,28 +1,31 @@
-from django_countries.serializer_fields import CountryField
-
 from rest_framework import serializers
+from rest_framework_serializer_extensions.fields import HashIdField
 from rest_framework_serializer_extensions.serializers import SerializerExtensionsMixin
 
 from accounts.models import MockUser, MockProfile
 
 
 class MockUserSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, max_length=128)
-    language = serializers.CharField(write_only=True, max_length=2)
-    country = CountryField(write_only=True)
-    locale = serializers.CharField(write_only=True, max_length=5)
+    id = HashIdField(model=MockUser, read_only=True)
 
-    def create(self, validated_data):
-        # validated_data: email, password, language, country, locale
-        return MockUser.create(**validated_data)
+    password = serializers.CharField(write_only=True, max_length=128)
+
+    nickname = serializers.CharField(write_only=True, max_length=65)
+    locale = serializers.CharField(write_only=True, max_length=5)
 
     class Meta:
         model = MockUser
-        fields = ('email', 'password', 'locale', 'country', 'language', )
+        fields = ('id', 'email', 'password', 'nickname', 'locale', )
+
+    def create(self, validated_data):
+        # validated_data: email, password, locale
+        return MockUser.create(**validated_data)
 
 
 class MockProfileSerializer(SerializerExtensionsMixin, serializers.ModelSerializer):
+    id = HashIdField(model=MockProfile, read_only=True)
+
     class Meta:
         model = MockProfile
-        fields = ('nickname', 'locale', 'country', 'language', )
-        read_only_fields = ('nickname', 'locale', 'country', 'language', )
+        fields = ('id', 'nickname', 'created', 'locale', 'profile_image')
+        read_only_fields = ('created', 'locale', )
