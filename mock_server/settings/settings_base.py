@@ -10,7 +10,6 @@ DEBUG = False
 
 SECRET_KEY = '&6fbttu7hb^=-v!84htgi=eh$1bc7ov$d-!2fuzmb2sxyktu+!'
 
-
 DEFAULT_DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -20,8 +19,7 @@ DEFAULT_DJANGO_APPS = [
     'django.contrib.staticfiles',
 ]
 PROJECT_APPS = ['accounts', ]
-EXTERNAL_APPS = ['rest_framework', 'safedelete', ]
-
+EXTERNAL_APPS = ['rest_auth', 'rest_framework', 'rest_framework.authtoken', 'safedelete', ]
 INSTALLED_APPS = DEFAULT_DJANGO_APPS + PROJECT_APPS + EXTERNAL_APPS
 
 MIDDLEWARE = [
@@ -65,14 +63,18 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator', },
 ]
 
+REST_USE_JWT = True
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated', ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'SERIALIZER_EXTENSIONS': {'USE_HASH_IDS': True, 'HASH_IDS_SOURCE': 'mock_server.HASH_IDS'}
 }
+
+JWT_AUTH = {'JWT_AUTH_HEADER_PREFIX': 'Bearer', }
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
